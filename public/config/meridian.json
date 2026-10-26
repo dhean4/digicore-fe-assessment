@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "id": "meridian",
+  "name": "Meridian Microfinance",
+  "tagline": "Small-business lending. No cards, no savings product.",
+  "theme": {
+    "primary": "#0f766e",
+    "onPrimary": "#ffffff",
+    "background": "#f2faf8",
+    "surface": "#ffffff",
+    "text": "#0b2723",
+    "radius": "2px",
+    "fontFamily": "'Trebuchet MS', 'Segoe UI', sans-serif"
+  },
+  "layout": "topnav",
+  "features": {
+    "transactions": true,
+    "transfers": true,
+    "savings": false,
+    "loans": true,
+    "cards": false
+  },
+  "dashboard": {
+    "widgets": ["loanOffer", "balance", "quickActions", "savingsGoal"]
+  },
+  "onboarding": {
+    "steps": [
+      {
+        "id": "owner",
+        "title": "Business owner",
+        "fields": [
+          { "key": "fullName", "label": "Full name", "type": "text", "validators": [{ "rule": "required" }] },
+          { "key": "phone", "label": "Phone number", "type": "tel", "validators": [{ "rule": "required" }, { "rule": "nigerianPhone", "message": "We'll send your loan OTP to this number. Please check it." }] },
+          { "key": "bvn", "label": "BVN", "type": "text", "validators": [{ "rule": "required" }, { "rule": "bvn" }] }
+        ]
+      },
+      {
+        "id": "business",
+        "title": "Your business",
+        "description": "Registered businesses only.",
+        "fields": [
+          { "key": "businessName", "label": "Business name", "type": "text", "validators": [{ "rule": "required" }, { "rule": "maxLength", "value": 80 }] },
+          {
+            "key": "rcNumber",
+            "label": "CAC registration number",
+            "type": "text",
+            "hint": "e.g. RC123456 or BN1234567",
+            "validators": [{ "rule": "required" }, { "rule": "pattern", "value": "^(RC|BN)\\d{5,7}$", "message": "Use your CAC number, starting with RC or BN." }]
+          },
+          {
+            "key": "sector",
+            "label": "Sector",
+            "type": "select",
+            "options": [
+              { "value": "retail", "label": "Retail & trading" },
+              { "value": "agric", "label": "Agriculture" },
+              { "value": "services", "label": "Services" },
+              { "value": "manufacturing", "label": "Manufacturing" }
+            ],
+            "validators": [{ "rule": "required" }]
+          }
+        ]
+      }
+    ]
+  }
+}

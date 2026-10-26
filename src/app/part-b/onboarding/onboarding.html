@@ -1,0 +1,67 @@
+<section class="onboarding" aria-labelledby="onboarding-heading">
+  <h1 id="onboarding-heading">Open an account with {{ tenant.config().name }}</h1>
+
+  @if (submitted()) {
+    <div class="card" role="status">
+      <h2>Application received</h2>
+      <p>Thanks. We'll be in touch shortly. (Demo: nothing was sent.)</p>
+    </div>
+  } @else if (step(); as current) {
+    <ol class="stepper">
+      @for (s of steps(); track s.id; let i = $index) {
+        <li
+          [class.current]="i === stepIndex()"
+          [class.done]="i < stepIndex()"
+          [attr.aria-current]="i === stepIndex() ? 'step' : null"
+        >
+          {{ s.title }}
+        </li>
+      }
+    </ol>
+
+    <form class="card" [formGroup]="form()" (ngSubmit)="next()" novalidate>
+      <h2>{{ current.title }}</h2>
+      @if (current.description) {
+        <p class="hint">{{ current.description }}</p>
+      }
+
+      @for (field of current.fields; track field.key) {
+        @let error = errorFor(field);
+        <div class="field">
+          <label [for]="field.key">{{ field.label }}</label>
+          @if (field.type === 'select') {
+            <select [id]="field.key" [formControlName]="field.key" [attr.aria-invalid]="!!error">
+              <option value="" disabled>Select…</option>
+              @for (option of field.options ?? []; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+          } @else {
+            <input
+              [id]="field.key"
+              [type]="field.type"
+              [formControlName]="field.key"
+              [attr.aria-invalid]="!!error"
+              [attr.aria-describedby]="error ? field.key + '-error' : null"
+            />
+          }
+          @if (field.hint && !error) {
+            <small class="hint">{{ field.hint }}</small>
+          }
+          @if (error) {
+            <small class="error" [id]="field.key + '-error'">{{ error }}</small>
+          }
+        </div>
+      }
+
+      <div class="actions">
+        @if (stepIndex() > 0) {
+          <button type="button" class="secondary" (click)="back()">Back</button>
+        }
+        <button type="submit">{{ isLast() ? 'Submit application' : 'Continue' }}</button>
+      </div>
+    </form>
+  } @else {
+    <p>Online onboarding isn't available for this bank yet.</p>
+  }
+</section>

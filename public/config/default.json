@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "id": "default",
+  "name": "Digicore Demo Bank",
+  "tagline": "The baseline config. Every other bank is a variation on this.",
+  "theme": {
+    "primary": "#1d4ed8",
+    "onPrimary": "#ffffff",
+    "background": "#f5f7fb",
+    "surface": "#ffffff",
+    "text": "#0f172a",
+    "radius": "8px",
+    "fontFamily": "system-ui, -apple-system, 'Segoe UI', sans-serif"
+  },
+  "layout": "topnav",
+  "features": {
+    "transactions": true,
+    "transfers": true,
+    "savings": true,
+    "loans": true,
+    "cards": true
+  },
+  "dashboard": {
+    "widgets": ["balance", "quickActions", "savingsGoal", "loanOffer"]
+  },
+  "onboarding": {
+    "steps": [
+      {
+        "id": "personal",
+        "title": "About you",
+        "fields": [
+          { "key": "fullName", "label": "Full name", "type": "text", "validators": [{ "rule": "required" }, { "rule": "minLength", "value": 3 }] },
+          { "key": "email", "label": "Email", "type": "email", "validators": [{ "rule": "required" }, { "rule": "email" }] }
+        ]
+      },
+      {
+        "id": "identity",
+        "title": "Verify your identity",
+        "fields": [
+          { "key": "bvn", "label": "BVN", "type": "text", "hint": "Dial *565*0# to get your BVN.", "validators": [{ "rule": "required" }, { "rule": "bvn" }] }
+        ]
+      }
+    ]
+  }
+}

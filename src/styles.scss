@@ -1,0 +1,237 @@
+// Brand tokens. These defaults are overwritten at runtime from the bank's config
+// (see part-b/tenant/tenant-config.ts → applyTheme). Every component styles itself from these
+// variables, never from hard-coded brand colours.
+:root {
+  --brand-primary: #1f2937;
+  --brand-on-primary: #ffffff;
+  --brand-background: #f8fafc;
+  --brand-surface: #ffffff;
+  --brand-text: #111827;
+  --brand-radius: 6px;
+  --brand-font: system-ui, sans-serif;
+
+  --text-muted: color-mix(in srgb, var(--brand-text) 60%, transparent);
+  --border: color-mix(in srgb, var(--brand-text) 12%, transparent);
+  --danger: #b91c1c;
+  --success: #15803d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--brand-font);
+  color: var(--brand-text);
+  background: var(--brand-background);
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 1.05rem;
+}
+
+input,
+select {
+  font: inherit;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--brand-radius);
+  background: var(--brand-surface);
+  color: inherit;
+
+  &:focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 1px;
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--danger);
+  }
+}
+
+button,
+.button {
+  display: inline-block;
+  font: inherit;
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid var(--brand-primary);
+  border-radius: var(--brand-radius);
+  background: var(--brand-primary);
+  color: var(--brand-on-primary);
+  text-decoration: none;
+  cursor: pointer;
+
+  &.secondary {
+    background: transparent;
+    color: var(--brand-primary);
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+// Layout shells
+.brand-bar {
+  background: var(--brand-primary);
+  color: var(--brand-on-primary);
+
+  .brand {
+    font-size: 1.15rem;
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+  }
+
+  select {
+    color: var(--brand-text);
+  }
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  .sidebar-layout & {
+    flex-direction: column;
+  }
+
+  a {
+    display: block;
+    padding: 0.45rem 0.75rem;
+    border-radius: var(--brand-radius);
+    color: inherit;
+    text-decoration: none;
+    opacity: 0.85;
+
+    &:hover,
+    &.active {
+      opacity: 1;
+      background: color-mix(in srgb, var(--brand-on-primary) 16%, transparent);
+    }
+  }
+}
+
+.content {
+  padding: 1.5rem;
+
+  &.narrow {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+}
+
+// Shared building blocks
+.card {
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--brand-radius);
+  background: var(--brand-surface);
+
+  &.accent {
+    background: var(--brand-primary);
+    color: var(--brand-on-primary);
+
+    .button {
+      background: var(--brand-on-primary);
+      color: var(--brand-primary);
+    }
+  }
+}
+
+.widget-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+
+  .figure {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  progress {
+    width: 100%;
+    accent-color: var(--brand-primary);
+  }
+}
+
+.tagline,
+.hint {
+  color: var(--text-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+// Onboarding
+.onboarding {
+  max-width: 36rem;
+
+  .stepper {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0 0 1rem;
+    padding: 0;
+    list-style: none;
+    font-size: 0.8125rem;
+
+    li {
+      flex: 1;
+      padding-top: 0.5rem;
+      border-top: 3px solid var(--border);
+      color: var(--text-muted);
+
+      &.done,
+      &.current {
+        border-color: var(--brand-primary);
+        color: var(--brand-text);
+      }
+
+      &.current {
+        font-weight: 600;
+      }
+    }
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-bottom: 1rem;
+
+    label {
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .error {
+      color: var(--danger);
+    }
+  }
+}

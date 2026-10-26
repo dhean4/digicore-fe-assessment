@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "id": "aurora",
+  "name": "Aurora Bank",
+  "tagline": "Retail banking with a savings focus. No lending product.",
+  "theme": {
+    "primary": "#6d28d9",
+    "onPrimary": "#ffffff",
+    "background": "#faf7ff",
+    "surface": "#ffffff",
+    "text": "#1e1b2e",
+    "radius": "14px",
+    "fontFamily": "Georgia, 'Times New Roman', serif"
+  },
+  "layout": "sidebar",
+  "features": {
+    "transactions": true,
+    "transfers": true,
+    "savings": true,
+    "loans": false,
+    "cards": true
+  },
+  "dashboard": {
+    "widgets": ["savingsGoal", "balance", "quickActions", "loanOffer"]
+  },
+  "onboarding": {
+    "steps": [
+      {
+        "id": "personal",
+        "title": "Personal details",
+        "description": "Use your name exactly as it appears on your BVN record.",
+        "fields": [
+          { "key": "firstName", "label": "First name", "type": "text", "validators": [{ "rule": "required" }] },
+          { "key": "lastName", "label": "Last name", "type": "text", "validators": [{ "rule": "required" }] },
+          {
+            "key": "dateOfBirth",
+            "label": "Date of birth",
+            "type": "date",
+            "validators": [{ "rule": "required" }, { "rule": "minAge", "value": 18, "message": "Aurora accounts are for customers aged 18 and over." }]
+          }
+        ]
+      },
+      {
+        "id": "identity",
+        "title": "Identity",
+        "fields": [
+          { "key": "bvn", "label": "BVN", "type": "text", "validators": [{ "rule": "required" }, { "rule": "bvn" }] },
+          {
+            "key": "nin",
+            "label": "NIN",
+            "type": "text",
+            "validators": [{ "rule": "required" }, { "rule": "pattern", "value": "^\\d{11}$", "message": "NIN must be 11 digits." }]
+          }
+        ]
+      },
+      {
+        "id": "contact",
+        "title": "Contact",
+        "fields": [
+          { "key": "phone", "label": "Phone number", "type": "tel", "hint": "e.g. 08031234567", "validators": [{ "rule": "required" }, { "rule": "nigerianPhone" }] },
+          { "key": "email", "label": "Email", "type": "email", "validators": [{ "rule": "email" }] }
+        ]
+      }
+    ]
+  }
+}
