@@ -1,0 +1,99 @@
+@import 'tailwindcss';
+
+/*
+ * Brand tokens. These defaults are overwritten at runtime from the bank's config
+ * (part-b/tenant/tenant-config.ts → applyTheme).
+ */
+:root {
+  --brand-primary: #1d4ed8;
+  --brand-on-primary: #ffffff;
+  --brand-background: #f5f7fb;
+  --brand-surface: #ffffff;
+  --brand-text: #0f172a;
+  --brand-radius: 12px;
+  --brand-font: 'Inter', system-ui, sans-serif;
+}
+
+/*
+ * `inline` makes Tailwind emit `var(--brand-*)` into each utility instead of a fixed value.
+ * One compiled stylesheet therefore themes every bank: `bg-brand`, `text-brand/70`,
+ * `font-sans` and `rounded-brand` all follow whatever config was loaded at runtime.
+ */
+@theme inline {
+  --color-brand: var(--brand-primary);
+  --color-brand-deep: color-mix(in oklab, var(--brand-primary) 62%, #000);
+  --color-brand-soft: color-mix(in oklab, var(--brand-primary) 10%, var(--brand-surface));
+  --color-brand-fg: var(--brand-on-primary);
+  --color-canvas: var(--brand-background);
+  --color-surface: var(--brand-surface);
+  --color-ink: var(--brand-text);
+  --color-muted: color-mix(in oklab, var(--brand-text) 58%, var(--brand-surface));
+  --color-line: color-mix(in oklab, var(--brand-text) 9%, var(--brand-surface));
+  --font-sans: var(--brand-font);
+  --radius-brand: var(--brand-radius);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-ink;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply tracking-tight text-balance;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand;
+  }
+
+  /* cdk-virtual-scroll-viewport hides its scrollbar badly on some platforms. */
+  .cdk-virtual-scroll-viewport {
+    scrollbar-width: thin;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-3xl border border-line bg-surface p-5 shadow-[0_1px_2px_rgb(0_0_0/0.04),0_8px_24px_-12px_rgb(0_0_0/0.08)] sm:p-6;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-brand-fg shadow-sm transition hover:bg-brand-deep active:scale-[0.98] disabled:opacity-50;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-line bg-surface px-5 py-2.5 text-sm font-semibold text-ink transition hover:border-brand/40 hover:text-brand;
+  }
+
+  .input {
+    @apply w-full rounded-2xl border border-line bg-surface px-4 py-3 text-[15px] text-ink transition outline-none placeholder:text-muted focus:border-brand focus:ring-4 focus:ring-brand/15 aria-invalid:border-red-500 aria-invalid:ring-red-500/15;
+  }
+
+  .label {
+    @apply text-sm font-semibold text-ink;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold tracking-[0.12em] text-muted uppercase;
+  }
+
+  .visually-hidden {
+    @apply sr-only;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

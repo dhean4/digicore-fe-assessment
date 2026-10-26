@@ -1,67 +1,153 @@
-<section class="onboarding" aria-labelledby="onboarding-heading">
-  <h1 id="onboarding-heading">Open an account with {{ tenant.config().name }}</h1>
+<section
+  class="grid overflow-hidden rounded-3xl border border-line bg-surface shadow-sm lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]"
+  aria-labelledby="onboarding-heading"
+>
+  <!-- Brand panel: value props and vertical stepper (desktop) -->
+  <aside
+    class="relative isolate overflow-hidden bg-linear-to-br from-brand to-brand-deep p-6 text-brand-fg sm:p-8 lg:p-10"
+  >
+    <div
+      class="pointer-events-none absolute -top-24 -left-20 -z-10 size-72 rounded-full bg-white/15 blur-3xl"
+    ></div>
+    <p class="text-xs font-semibold tracking-[0.12em] text-white/70 uppercase">Open an account</p>
+    <h1 id="onboarding-heading" class="mt-2 text-2xl font-extrabold sm:text-3xl">
+      Bank with {{ tenant.config().name }} in minutes
+    </h1>
+    <ul class="mt-6 hidden space-y-3 text-sm text-white/85 sm:block">
+      <li class="flex items-center gap-2.5">
+        <app-icon name="zap" [size]="17" /> Instant account number
+      </li>
+      <li class="flex items-center gap-2.5">
+        <app-icon name="shield" [size]="17" /> CBN-licensed · NDIC-insured
+      </li>
+      <li class="flex items-center gap-2.5">
+        <app-icon name="lock" [size]="17" /> Your data is encrypted end to end
+      </li>
+    </ul>
 
-  @if (submitted()) {
-    <div class="card" role="status">
-      <h2>Application received</h2>
-      <p>Thanks. We'll be in touch shortly. (Demo: nothing was sent.)</p>
-    </div>
-  } @else if (step(); as current) {
-    <ol class="stepper">
-      @for (s of steps(); track s.id; let i = $index) {
-        <li
-          [class.current]="i === stepIndex()"
-          [class.done]="i < stepIndex()"
-          [attr.aria-current]="i === stepIndex() ? 'step' : null"
-        >
-          {{ s.title }}
-        </li>
-      }
-    </ol>
-
-    <form class="card" [formGroup]="form()" (ngSubmit)="next()" novalidate>
-      <h2>{{ current.title }}</h2>
-      @if (current.description) {
-        <p class="hint">{{ current.description }}</p>
-      }
-
-      @for (field of current.fields; track field.key) {
-        @let error = errorFor(field);
-        <div class="field">
-          <label [for]="field.key">{{ field.label }}</label>
-          @if (field.type === 'select') {
-            <select [id]="field.key" [formControlName]="field.key" [attr.aria-invalid]="!!error">
-              <option value="" disabled>Select…</option>
-              @for (option of field.options ?? []; track option.value) {
-                <option [value]="option.value">{{ option.label }}</option>
+    @if (!submitted() && steps().length) {
+      <ol class="mt-10 hidden space-y-1 lg:block">
+        @for (s of steps(); track s.id; let i = $index) {
+          <li
+            class="flex items-center gap-3 rounded-2xl px-3 py-2.5 transition"
+            [class.bg-white/15]="i === stepIndex()"
+            [attr.aria-current]="i === stepIndex() ? 'step' : null"
+          >
+            <span
+              class="grid size-8 place-items-center rounded-full text-sm font-bold"
+              [class]="
+                i < stepIndex()
+                  ? 'bg-white text-brand'
+                  : i === stepIndex()
+                    ? 'bg-white/25'
+                    : 'bg-white/10 text-white/60'
+              "
+            >
+              @if (i < stepIndex()) {
+                <app-icon name="check" [size]="16" [stroke]="3" />
+              } @else {
+                {{ i + 1 }}
               }
-            </select>
-          } @else {
-            <input
-              [id]="field.key"
-              [type]="field.type"
-              [formControlName]="field.key"
-              [attr.aria-invalid]="!!error"
-              [attr.aria-describedby]="error ? field.key + '-error' : null"
-            />
-          }
-          @if (field.hint && !error) {
-            <small class="hint">{{ field.hint }}</small>
-          }
-          @if (error) {
-            <small class="error" [id]="field.key + '-error'">{{ error }}</small>
+            </span>
+            <span class="font-semibold" [class.text-white/60]="i > stepIndex()">{{ s.title }}</span>
+          </li>
+        }
+      </ol>
+    }
+  </aside>
+
+  <!-- Form panel -->
+  <div class="p-6 sm:p-8 lg:p-10">
+    @if (submitted()) {
+      <div class="flex flex-col items-center py-10 text-center" role="status">
+        <span
+          class="grid size-16 place-items-center rounded-full bg-emerald-100 text-emerald-600 ring-8 ring-emerald-50"
+          ><app-icon name="check" [size]="30" [stroke]="2.6"
+        /></span>
+        <h2 class="mt-6 text-2xl font-extrabold">Application received</h2>
+        <p class="mt-2 max-w-sm text-muted">
+          Thanks! {{ tenant.config().name }} will verify your details and send your account number
+          by SMS. (Demo: nothing was sent.)
+        </p>
+      </div>
+    } @else if (step(); as current) {
+      <!-- Mobile progress -->
+      <div class="mb-6 lg:hidden">
+        <div class="flex justify-between text-xs font-semibold text-muted">
+          <span>Step {{ stepIndex() + 1 }} of {{ steps().length }}</span
+          ><span>{{ current.title }}</span>
+        </div>
+        <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-line">
+          <div
+            class="h-full rounded-full bg-brand transition-all duration-500"
+            [style.width.%]="((stepIndex() + 1) / steps().length) * 100"
+          ></div>
+        </div>
+      </div>
+
+      <form [formGroup]="form()" (ngSubmit)="next()" novalidate class="space-y-5">
+        <div>
+          <h2 class="text-xl font-extrabold sm:text-2xl">{{ current.title }}</h2>
+          @if (current.description) {
+            <p class="mt-1 text-sm text-muted">{{ current.description }}</p>
           }
         </div>
-      }
 
-      <div class="actions">
-        @if (stepIndex() > 0) {
-          <button type="button" class="secondary" (click)="back()">Back</button>
+        @for (field of current.fields; track field.key) {
+          @let error = errorFor(field);
+          <div class="space-y-1.5">
+            <label class="label" [for]="field.key">{{ field.label }}</label>
+            @if (field.type === 'select') {
+              <select
+                [id]="field.key"
+                class="input"
+                [formControlName]="field.key"
+                [attr.aria-invalid]="!!error"
+              >
+                <option value="" disabled>Select…</option>
+                @for (option of field.options ?? []; track option.value) {
+                  <option [value]="option.value">{{ option.label }}</option>
+                }
+              </select>
+            } @else {
+              <input
+                [id]="field.key"
+                class="input"
+                [type]="field.type"
+                [formControlName]="field.key"
+                [attr.aria-invalid]="!!error"
+                [attr.aria-describedby]="error ? field.key + '-error' : null"
+              />
+            }
+            @if (error) {
+              <p
+                class="flex items-center gap-1.5 text-sm font-medium text-red-600"
+                [id]="field.key + '-error'"
+              >
+                <app-icon name="alert" [size]="15" /> {{ error }}
+              </p>
+            } @else if (field.hint) {
+              <p class="text-sm text-muted">{{ field.hint }}</p>
+            }
+          </div>
         }
-        <button type="submit">{{ isLast() ? 'Submit application' : 'Continue' }}</button>
-      </div>
-    </form>
-  } @else {
-    <p>Online onboarding isn't available for this bank yet.</p>
-  }
+
+        <div class="flex items-center gap-3 pt-2">
+          @if (stepIndex() > 0) {
+            <button type="button" class="btn-ghost" (click)="back()">
+              <app-icon name="arrowLeft" [size]="16" /> Back
+            </button>
+          }
+          <button type="submit" class="btn ml-auto px-7 py-3">
+            {{ isLast() ? 'Submit application' : 'Continue' }}
+            <app-icon name="chevronRight" [size]="16" />
+          </button>
+        </div>
+      </form>
+    } @else {
+      <p class="py-10 text-center text-muted">
+        Online onboarding isn't available for this bank yet.
+      </p>
+    }
+  </div>
 </section>

@@ -9,8 +9,8 @@
     "background": "#faf7ff",
     "surface": "#ffffff",
     "text": "#1e1b2e",
-    "radius": "14px",
-    "fontFamily": "Georgia, 'Times New Roman', serif"
+    "radius": "20px",
+    "fontFamily": "'Plus Jakarta Sans', system-ui, sans-serif"
   },
   "layout": "sidebar",
   "features": {
@@ -21,7 +21,7 @@
     "cards": true
   },
   "dashboard": {
-    "widgets": ["savingsGoal", "balance", "quickActions", "loanOffer"]
+    "widgets": ["balance", "quickActions", "savingsGoal", "insights", "recentTransactions", "loanOffer"]
   },
   "onboarding": {
     "steps": [

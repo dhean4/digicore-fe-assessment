@@ -1,20 +1,19 @@
 import { NgComponentOutlet } from '@angular/common';
 import { Component, computed, inject, resource } from '@angular/core';
 import { TenantStore } from '../tenant/tenant-store';
-import { WIDGETS, WidgetDefinition } from './widget-registry';
+import { WIDGETS, WidgetDefinition, layoutWidgets } from './widget-registry';
 
 /** The home screen is assembled from the bank's config: which widgets appear, and in what order. */
 @Component({
   selector: 'app-dashboard',
   imports: [NgComponentOutlet],
+  host: { class: 'block' },
   template: `
-    <h1>Welcome to {{ tenant.config().name }}</h1>
-    @if (tenant.config().tagline; as tagline) {
-      <p class="tagline">{{ tagline }}</p>
-    }
-    <div class="widget-grid">
+    <div class="grid grid-cols-1 gap-5 lg:grid-cols-12">
       @for (widget of widgets.value(); track $index) {
-        <ng-container *ngComponentOutlet="widget" />
+        <div class="min-w-0 *:block *:h-full" [class]="widget.span">
+          <ng-container *ngComponentOutlet="widget.component" />
+        </div>
       }
     </div>
   `,
@@ -33,7 +32,11 @@ export class Dashboard {
 
   protected readonly widgets = resource({
     params: () => this.definitions(),
-    loader: ({ params }) => Promise.all(params.map((def) => def.load())),
+    loader: async ({ params }) => {
+      const components = await Promise.all(params.map((def) => def.load()));
+      const spans = layoutWidgets(params.map((def) => def.size));
+      return components.map((component, i) => ({ component, span: spans[i] }));
+    },
     defaultValue: [],
   });
 }

@@ -79,7 +79,7 @@ export const SAFE_MODE_TENANT: TenantConfig = {
     surface: '#ffffff',
     text: '#111827',
     radius: '6px',
-    fontFamily: 'system-ui, sans-serif',
+    fontFamily: "'Inter', system-ui, sans-serif",
   },
   layout: 'topnav',
   features: { transactions: true },

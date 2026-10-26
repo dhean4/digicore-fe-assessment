@@ -10,6 +10,16 @@ backs them up.
 | **Part A:** Broken Banking Transaction UI | [docs/part-a.md](docs/part-a.md) | [`src/app/part-a/`](src/app/part-a) |
 | **Part B:** Multi-Bank Custom UI Engine | [docs/part-b.md](docs/part-b.md) | [`src/app/part-b/`](src/app/part-b), [`public/config/`](public/config) |
 
+## Screenshots
+
+The same build, rendered as three different banks:
+
+| Aurora Bank (sidebar layout) | Digicore Demo Bank (top nav) |
+|---|---|
+| ![Aurora dashboard](docs/screenshots/aurora-desktop.png) | ![Default dashboard](docs/screenshots/default-desktop.png) |
+| **Meridian Microfinance onboarding** | **Mobile (390px)** |
+| ![Meridian onboarding](docs/screenshots/meridian-onboarding.png) | ![Mobile views](docs/screenshots/mobile.png) |
+
 ## TL;DR
 
 **Part A.** The component crashes on load because the service is never injected. It has no error or
@@ -47,6 +57,7 @@ npm run build
 - Angular 22: standalone components, zoneless change detection, OnPush (the default in v22), signals
   (`computed`, `linkedSignal`, `resource`/`rxResource`), built-in control flow, `inject()`,
   signal `input()`, functional guards, `provideAppInitializer`, typed reactive forms.
+- Tailwind CSS v4, with utilities bound to runtime CSS variables through `@theme inline`. Each bank's colours, font and corner radius come from its config, with no rebuild.
 - `@angular/cdk` for virtual scrolling.
 - Strict TypeScript and `strictTemplates`.
 - Vitest (Angular's default runner). The tests cover the Part A component and filter, tenant

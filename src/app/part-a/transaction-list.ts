@@ -1,11 +1,12 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, TrackByFunction, computed, inject, signal } from '@angular/core';
 import { rxResource, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { filterTransactions } from './filter-transactions';
 import { TransactionApi } from './transaction-api';
 import { Transaction } from './transaction.model';
+import { TransactionRow } from './transaction-row';
+import { Icon } from '../shared/icon';
 
 const SEARCH_DEBOUNCE_MS = 250;
 
@@ -15,9 +16,9 @@ const SEARCH_DEBOUNCE_MS = 250;
  */
 @Component({
   selector: 'app-transaction-list',
-  imports: [ScrollingModule, CurrencyPipe, DatePipe],
+  host: { class: 'block' },
+  imports: [ScrollingModule, TransactionRow, Icon],
   templateUrl: './transaction-list.html',
-  styleUrl: './transaction-list.scss',
 })
 export class TransactionList {
   private readonly api = inject(TransactionApi);

@@ -9,8 +9,8 @@
     "background": "#f5f7fb",
     "surface": "#ffffff",
     "text": "#0f172a",
-    "radius": "8px",
-    "fontFamily": "system-ui, -apple-system, 'Segoe UI', sans-serif"
+    "radius": "14px",
+    "fontFamily": "'Inter', system-ui, sans-serif"
   },
   "layout": "topnav",
   "features": {
@@ -21,7 +21,7 @@
     "cards": true
   },
   "dashboard": {
-    "widgets": ["balance", "quickActions", "savingsGoal", "loanOffer"]
+    "widgets": ["balance", "quickActions", "recentTransactions", "insights", "savingsGoal", "loanOffer"]
   },
   "onboarding": {
     "steps": [

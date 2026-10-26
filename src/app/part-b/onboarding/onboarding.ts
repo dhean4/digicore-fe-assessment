@@ -1,5 +1,6 @@
 import { Component, computed, inject, linkedSignal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Icon } from '../../shared/icon';
 import { TenantStore } from '../tenant/tenant-store';
 import { FieldConfig, OnboardingStep } from '../tenant/tenant.model';
 import { buildValidators, errorMessage } from './validator-registry';
@@ -23,7 +24,8 @@ function buildStepForm(step: OnboardingStep): StepForm {
  */
 @Component({
   selector: 'app-onboarding',
-  imports: [ReactiveFormsModule],
+  host: { class: 'block' },
+  imports: [ReactiveFormsModule, Icon],
   templateUrl: './onboarding.html',
 })
 export class Onboarding {

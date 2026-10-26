@@ -1,33 +1,25 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TenantStore } from '../tenant/tenant-store';
 import { BankSwitcher } from './bank-switcher';
 import { NavLinks } from './nav-links';
+import { BottomTabs, BrandMark, PageGreeting } from './shell-parts';
 
 @Component({
   selector: 'app-topnav-layout',
-  imports: [RouterOutlet, NavLinks, BankSwitcher],
+  imports: [RouterOutlet, NavLinks, BankSwitcher, BrandMark, PageGreeting, BottomTabs],
   template: `
-    <header class="brand-bar topnav">
-      <strong class="brand">{{ tenant.config().name }}</strong>
-      <nav aria-label="Main"><app-nav-links /></nav>
-      <app-bank-switcher />
+    <header class="sticky top-0 z-30 border-b border-line bg-surface/80 backdrop-blur-xl">
+      <div class="mx-auto flex h-16 max-w-6xl items-center gap-6 px-4 sm:px-6">
+        <app-brand-mark />
+        <nav aria-label="Main" class="ml-auto hidden lg:block"><app-nav-links variant="top" /></nav>
+      </div>
     </header>
-    <main class="content narrow"><router-outlet /></main>
-  `,
-  styles: `
-    .topnav {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 1rem 2rem;
-      padding: 0.75rem 1.5rem;
-    }
-    nav {
-      flex: 1;
-    }
+    <main class="mx-auto max-w-6xl space-y-6 px-4 pt-6 pb-32 sm:px-6 lg:pt-8 lg:pb-16">
+      <app-page-greeting />
+      <router-outlet />
+    </main>
+    <app-bottom-tabs />
+    <app-bank-switcher />
   `,
 })
-export class TopnavLayout {
-  protected readonly tenant = inject(TenantStore);
-}
+export class TopnavLayout {}

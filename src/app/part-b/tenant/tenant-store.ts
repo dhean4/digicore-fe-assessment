@@ -10,22 +10,24 @@ import {
   parseTenantConfig,
   resolveTenantId,
 } from './tenant-config';
+import { IconName } from '../../shared/icon';
 import { FeatureKey, TenantConfig } from './tenant.model';
 
 export interface NavItem {
   path: string;
   label: string;
+  icon: IconName;
   feature?: FeatureKey;
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { path: '/', label: 'Home' },
-  { path: '/transactions', label: 'Transactions', feature: 'transactions' },
-  { path: '/transfers', label: 'Transfers', feature: 'transfers' },
-  { path: '/savings', label: 'Savings', feature: 'savings' },
-  { path: '/loans', label: 'Loans', feature: 'loans' },
-  { path: '/cards', label: 'Cards', feature: 'cards' },
-  { path: '/onboarding', label: 'Open an account' },
+  { path: '/', label: 'Home', icon: 'home' },
+  { path: '/transactions', label: 'Transactions', icon: 'list', feature: 'transactions' },
+  { path: '/transfers', label: 'Transfers', icon: 'send', feature: 'transfers' },
+  { path: '/savings', label: 'Savings', icon: 'piggy', feature: 'savings' },
+  { path: '/loans', label: 'Loans', icon: 'loan', feature: 'loans' },
+  { path: '/cards', label: 'Cards', icon: 'card', feature: 'cards' },
+  { path: '/onboarding', label: 'Open an account', icon: 'userPlus' },
 ];
 
 /** The runtime source of truth for "which bank am I, and what does it look like?". */

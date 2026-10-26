@@ -169,7 +169,7 @@ If the codebase can't use resources yet, the same guarantees come from either of
     <button type="button" (click)="transactions.reload()">Try again</button>
   </div>
 } @else {
-  <cdk-virtual-scroll-viewport itemSize="64">
+  <cdk-virtual-scroll-viewport itemSize="72">
     <ul>
       <li *cdkVirtualFor="let t of filtered(); trackBy: trackById">
         {{ t.category ?? 'Uncategorised' }}
