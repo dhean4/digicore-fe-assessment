@@ -1,0 +1,51 @@
+<section class="transactions" aria-labelledby="transactions-heading">
+  <header class="toolbar">
+    <h1 id="transactions-heading">Transactions</h1>
+    <label class="search">
+      <span class="visually-hidden">Search transactions by category</span>
+      <input
+        #search
+        type="search"
+        placeholder="Search by category"
+        autocomplete="off"
+        [value]="query()"
+        (input)="query.set(search.value)"
+      />
+    </label>
+  </header>
+
+  @if (transactions.isLoading()) {
+    <p class="state" role="status">Loading transactions…</p>
+  } @else if (transactions.error()) {
+    <div class="state error" role="alert">
+      <p>We couldn't load your transactions.</p>
+      <button type="button" (click)="transactions.reload()">Try again</button>
+    </div>
+  } @else {
+    <p class="count" role="status">{{ filtered().length }} of {{ total() }} transactions</p>
+
+    @if (filtered().length) {
+      <cdk-virtual-scroll-viewport itemSize="64" class="viewport">
+        <ul class="list">
+          <li *cdkVirtualFor="let t of filtered(); trackBy: trackById" class="row">
+            <div class="primary">
+              <span class="category">{{ t.category ?? 'Uncategorised' }}</span>
+              <span class="narration">{{ t.narration }}</span>
+            </div>
+            <div class="secondary">
+              <span class="amount" [class.credit]="t.direction === 'credit'">
+                {{ t.direction === 'credit' ? '+' : '−'
+                }}{{ t.amountMinor / 100 | currency: t.currency : 'symbol-narrow' }}
+              </span>
+              <time [attr.datetime]="t.postedAt">{{ t.postedAt | date: 'mediumDate' }}</time>
+            </div>
+          </li>
+        </ul>
+      </cdk-virtual-scroll-viewport>
+    } @else if (searchTerm()) {
+      <p class="state">No transactions match “{{ searchTerm() }}”.</p>
+    } @else {
+      <p class="state">You don't have any transactions yet.</p>
+    }
+  }
+</section>
